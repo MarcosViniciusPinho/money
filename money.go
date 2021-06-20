@@ -18,7 +18,7 @@ var Ten = NewFromInt(10)
 var One = NewFromInt(1)
 var Zero = NewFromInt(0)
 
-//struct was created so that it is possible to have a type that can be used for monetary purposes where precision is required.
+// Money struct was created so that it is possible to have a type that can be used for monetary purposes where precision is required.
 type Money struct {
 	decimal.Decimal
 }
@@ -50,37 +50,37 @@ func NewFromInt(value int) Money {
  * rounding.HalfEven -> It will always add rounding when the decimal place is greater than to five (5)
  */
 
-//'d2' Attribute that represents the new value for money.
+// Div 'd2' Attribute that represents the new value for money.
 //'round' Attribute that represents the type of rounding desired.
 //'prec' Attribute that represents the desired decimal place limit.
-//Function that has the responsibility to division the values ​​and use the type of rounding that was informed for the result. Example: d / d2
+//Function that has the responsibility to division the values and use the type of rounding that was informed for the result. Example: d / d2
 func (d Money) Div(d2 Money, round rounding.RoundingMode, prec int) Money {
 	money := Money{d.Decimal.Div(d2.Decimal)}
 	return money.scale(prec, round)
 }
 
-//'d2' Attribute that represents the new value for money.
+// Sub 'd2' Attribute that represents the new value for money.
 //'round' Attribute that represents the type of rounding desired.
 //'prec' Attribute that represents the desired decimal place limit.
-//Function that has the responsibility to subtraction the values ​​and use the type of rounding that was informed for the result. Example: d - d2
+//Function that has the responsibility to subtraction the values and use the type of rounding that was informed for the result. Example: d - d2
 func (d Money) Sub(d2 Money, round rounding.RoundingMode, prec int) Money {
 	money := Money{d.Decimal.Sub(d2.Decimal)}
 	return money.scale(prec, round)
 }
 
-//'d2' Attribute that represents the new value for money.
+// Add 'd2' Attribute that represents the new value for money.
 //'round' Attribute that represents the type of rounding desired.
 //'prec' Attribute that represents the desired decimal place limit.
-//Function that has the responsibility to add the values ​​and use the type of rounding that was informed for the result. Example: d + d2
+//Function that has the responsibility to add the values and use the type of rounding that was informed for the result. Example: d + d2
 func (d Money) Add(d2 Money, round rounding.RoundingMode, prec int) Money {
 	money := Money{d.Decimal.Add(d2.Decimal)}
 	return money.scale(prec, round)
 }
 
-//'d2' Attribute that represents the new value for money.
+// Mul 'd2' Attribute that represents the new value for money.
 //'round' Attribute that represents the type of rounding desired.
 //'prec' Attribute that represents the desired decimal place limit.
-//Function that has the responsibility to multiply the values ​​and use the type of rounding that was informed for the result. Example: d * d2
+//Function that has the responsibility to multiply the values and use the type of rounding that was informed for the result. Example: d * d2
 func (d Money) Mul(d2 Money, round rounding.RoundingMode, prec int) Money {
 	money := Money{d.Decimal.Mul(d2.Decimal)}
 	return money.scale(prec, round)
