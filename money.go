@@ -24,11 +24,11 @@ type Money struct {
 }
 
 func NewFromString(value string) (Money, error) {
-	m, err := decimal.NewFromString(value)
+	d, err := decimal.NewFromString(value)
 	if err != nil {
 		return Money{}, err
 	}
-	return Money{m}, nil
+	return Money{d}, nil
 }
 
 func NewFromFloat(value float64) Money {
@@ -50,82 +50,82 @@ func NewFromInt(value int) Money {
  * rounding.HalfEven -> It will always add rounding when the decimal place is greater than to five (5)
  */
 
-// Div 'd2' Attribute that represents the new value for money.
+// Div 'm2' Attribute that represents the new value for money.
 //'round' Attribute that represents the type of rounding desired.
 //'prec' Attribute that represents the desired decimal place limit.
-//Function that has the responsibility to division the values and use the type of rounding that was informed for the result. Example: d / d2
-func (d Money) Div(d2 Money, round rounding.RoundingMode, prec int) Money {
-	money := Money{d.Decimal.Div(d2.Decimal)}
+//Function that has the responsibility to division the values and use the type of rounding that was informed for the result. Example: m / m2
+func (m Money) Div(m2 Money, round rounding.RoundingMode, prec int) Money {
+	money := Money{m.Decimal.Div(m2.Decimal)}
 	return money.scale(prec, round)
 }
 
-// Sub 'd2' Attribute that represents the new value for money.
+// Sub 'm2' Attribute that represents the new value for money.
 //'round' Attribute that represents the type of rounding desired.
 //'prec' Attribute that represents the desired decimal place limit.
-//Function that has the responsibility to subtraction the values and use the type of rounding that was informed for the result. Example: d - d2
-func (d Money) Sub(d2 Money, round rounding.RoundingMode, prec int) Money {
-	money := Money{d.Decimal.Sub(d2.Decimal)}
+//Function that has the responsibility to subtraction the values and use the type of rounding that was informed for the result. Example: m - m2
+func (m Money) Sub(m2 Money, round rounding.RoundingMode, prec int) Money {
+	money := Money{m.Decimal.Sub(m2.Decimal)}
 	return money.scale(prec, round)
 }
 
-// Add 'd2' Attribute that represents the new value for money.
+// Add 'm2' Attribute that represents the new value for money.
 //'round' Attribute that represents the type of rounding desired.
 //'prec' Attribute that represents the desired decimal place limit.
-//Function that has the responsibility to add the values and use the type of rounding that was informed for the result. Example: d + d2
-func (d Money) Add(d2 Money, round rounding.RoundingMode, prec int) Money {
-	money := Money{d.Decimal.Add(d2.Decimal)}
+//Function that has the responsibility to add the values and use the type of rounding that was informed for the result. Example: m + m2
+func (m Money) Add(m2 Money, round rounding.RoundingMode, prec int) Money {
+	money := Money{m.Decimal.Add(m2.Decimal)}
 	return money.scale(prec, round)
 }
 
-// Mul 'd2' Attribute that represents the new value for money.
+// Mul 'm2' Attribute that represents the new value for money.
 //'round' Attribute that represents the type of rounding desired.
 //'prec' Attribute that represents the desired decimal place limit.
-//Function that has the responsibility to multiply the values and use the type of rounding that was informed for the result. Example: d * d2
-func (d Money) Mul(d2 Money, round rounding.RoundingMode, prec int) Money {
-	money := Money{d.Decimal.Mul(d2.Decimal)}
+//Function that has the responsibility to multiply the values and use the type of rounding that was informed for the result. Example: m * m2
+func (m Money) Mul(m2 Money, round rounding.RoundingMode, prec int) Money {
+	money := Money{m.Decimal.Mul(m2.Decimal)}
 	return money.scale(prec, round)
 }
 
-func (d Money) Pow(d2 Money, round rounding.RoundingMode, prec int) Money {
-	money := Money{d.Decimal.Pow(d2.Decimal)}
+func (m Money) Pow(m2 Money, round rounding.RoundingMode, prec int) Money {
+	money := Money{m.Decimal.Pow(m2.Decimal)}
 	return money.scale(prec, round)
 }
 
-func (d Money) GreaterThan(d2 Money) bool {
-	return d.Decimal.GreaterThan(d2.Decimal)
+func (m Money) GreaterThan(m2 Money) bool {
+	return m.Decimal.GreaterThan(m2.Decimal)
 }
 
-func (d Money) GreaterThanOrEqual(d2 Money) bool {
-	return d.Decimal.GreaterThanOrEqual(d2.Decimal)
+func (m Money) GreaterThanOrEqual(m2 Money) bool {
+	return m.Decimal.GreaterThanOrEqual(m2.Decimal)
 }
 
-func (d Money) LessThan(d2 Money) bool {
-	return d.Decimal.LessThan(d2.Decimal)
+func (m Money) LessThan(m2 Money) bool {
+	return m.Decimal.LessThan(m2.Decimal)
 }
 
-func (d Money) LessThanOrEqual(d2 Money) bool {
-	return d.Decimal.LessThanOrEqual(d2.Decimal)
+func (m Money) LessThanOrEqual(m2 Money) bool {
+	return m.Decimal.LessThanOrEqual(m2.Decimal)
 }
 
-func (d Money) Equal(d2 Money) bool {
-	return d.Decimal.Equal(d2.Decimal)
+func (m Money) Equal(m2 Money) bool {
+	return m.Decimal.Equal(m2.Decimal)
 }
 
-func (d Money) ToFloat64() float64 {
-	result, _ := d.Decimal.Float64()
+func (m Money) ToFloat64() float64 {
+	result, _ := m.Decimal.Float64()
 	return result
 }
 
-func (d Money) ToInt() int64 {
-	return d.Decimal.IntPart()
+func (m Money) ToInt() int64 {
+	return m.Decimal.IntPart()
 }
 
-func (d Money) String() string {
-	return d.Decimal.String()
+func (m Money) String() string {
+	return m.Decimal.String()
 }
 
-func (d Money) scale(prec int, roundingMode rounding.RoundingMode) Money {
-	number, _ := new(big.Rat).SetString(d.String())
+func (m Money) scale(prec int, roundingMode rounding.RoundingMode) Money {
+	number, _ := new(big.Rat).SetString(m.String())
 	rounding.Round(number, prec, roundingMode)
 	f, _ := number.Float64()
 	return NewFromFloat(f)
